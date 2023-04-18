@@ -19,11 +19,12 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async ActionResult<IEnumerable<User>> GetUsers() 
-        => _dataContext.Users.ToListAsync();        
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers() 
+        => await _dataContext.Users.ToListAsync();        
 
     [HttpGet("{id}")]
-    public async ActionResult<User> GetUser(int id)
-        => await _dataContext.Users.Where(o => o.Id == id).FirstOrDefaultAsync();
+    public async Task<ActionResult<User>> GetUser(int id)
+        => await _dataContext.Users.FindAsync(id) ?? new Entities.User();
+        
 }
 
